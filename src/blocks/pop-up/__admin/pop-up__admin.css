@@ -1,0 +1,11 @@
+.pop-up__admin {
+    /* padding-bottom: 37px; */
+    padding-top: 54px;
+}
+
+@media screen and (max-width: 600px) {
+    .pop-up__admin {
+        padding-bottom: 25px;
+        padding-top: 75px;
+    }
+}

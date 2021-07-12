@@ -1,0 +1,9 @@
+.photo-grid {
+    margin-top: 51px;
+}
+
+@media screen and (max-width: 690px) {
+    .photo-grid {
+        margin-top: 36px;
+    }
+}

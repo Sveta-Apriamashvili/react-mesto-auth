@@ -1,0 +1,8 @@
+.profile-info__edit-avatar_active {
+    /* visibility: visible; */
+    display: block;
+}
+
+.profile-info__edit-avatar_active:hover {
+    cursor: pointer;
+}

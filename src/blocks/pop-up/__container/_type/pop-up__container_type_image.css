@@ -1,0 +1,11 @@
+.pop-up__container_type_image {
+    width: auto;
+    margin-top: 90px;
+    background-color: transparent;
+}
+
+@media screen and (max-width: 320px) {
+    .pop-up__container_type_image {
+        margin-top: 136px;
+    }
+}

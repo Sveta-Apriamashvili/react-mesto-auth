@@ -1,0 +1,19 @@
+.pop-up__item {
+    border: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: 17px;
+    font-size: 14px;
+    line-height: 17px;
+    padding-bottom: 13px;
+    padding-top: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+ .pop-up__item:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+
+ }

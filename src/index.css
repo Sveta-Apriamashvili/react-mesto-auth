@@ -1,0 +1,51 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+
+@import url(./blocks/page/page.css);
+@import url(./blocks/page/__container/page__container.css);
+
+@import url(./blocks/header/header.css);
+@import url(./blocks/logo/logo.css);
+
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile-info/profile-info.css);
+@import url(./blocks/profile-info/__avatar/profile-info__avatar.css);
+@import url(./blocks/profile-info/__edit-avatar/profile-info__edit-avatar.css);
+@import url(./blocks/profile-info/__edit-avatar/_active/profile-info__edit-avatar_active.css);
+@import url(./blocks/profile-info/__info/profile-info__info.css);
+@import url(./blocks/profile-info/__name/profile-info__name.css);
+@import url(./blocks/profile-info/__about/profile-info__about.css);
+@import url(./blocks/profile-info/__edit-button/profile-info__edit-button.css);
+@import url(./blocks/pop-up/pop-up.css);
+@import url(./blocks/pop-up/_opened/pop-up_opened.css);
+@import url(./blocks/pop-up/__close-button/pop-up__close-button.css);
+@import url(./blocks/pop-up/__container/pop-up__container.css);
+@import url(./blocks/pop-up/__title/pop-up__title.css);
+@import url(./blocks/pop-up/__admin/pop-up__admin.css);
+@import url(./blocks/pop-up/__input-container/pop-up__input-container.css);
+@import url(./blocks/pop-up/__item/pop-up__item.css);
+@import url(./blocks/pop-up/__item/_type/pop-up__item_type_error.css);
+@import url(./blocks/pop-up/__submit-button/pop-up__submit-button.css);
+@import url(./blocks/pop-up/__submit-button/_inactive/pop-up__submit-button.css);
+@import url(./blocks/profile/__add-button/profile__add-button.css);
+@import url(./blocks/pop-up/__error/pop-up__error.css);
+@import url(./blocks/pop-up/__error/_active/pop-up__error_active.css);
+@import url(./blocks/pop-up/_type/pop-up_type_image.css);
+@import url(./blocks/pop-up/__image/pop-up__image.css);
+@import url(./blocks/pop-up/__image-caption/pop-up__image-caption.css);
+@import url(./blocks/pop-up/__container/_type/pop-up__container_type_image.css);
+@import url(./blocks/pop-up/__figure/pop-up__figure.css);
+
+@import url(./blocks/photo-grid/photo-grid.css);
+@import url(./blocks/photo-grid/__list/photo-grid__list.css);
+@import url(./blocks/element/element.css);
+@import url(./blocks/element/__bin/element__bin.css);
+@import url(./blocks/element/__bin/_active/element__bin_active.css);
+@import url(./blocks/element/__image/element__image.css);
+@import url(./blocks/element/__text-container/element__text-container.css);
+@import url(./blocks/element/__title/element__title.css);
+@import url(./blocks/element/__like/element__like.css);
+@import url(./blocks/element/__like/_active/element__like_active.css);
+
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/__copyright/footer__copyright.css);

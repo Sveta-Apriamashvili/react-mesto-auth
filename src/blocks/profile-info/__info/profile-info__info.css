@@ -1,0 +1,11 @@
+.profile-info__info {
+    list-style: none;
+    margin: 0;
+    padding-left: 30px;
+}
+
+@media screen and (max-width: 690px) {
+    .profile-info__info {
+        margin-top: 26px;
+    }
+}
