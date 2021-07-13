@@ -1,0 +1,10 @@
+.pop-up__sign-in {
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+margin-top: 5px; 
+margin-bottom: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+}

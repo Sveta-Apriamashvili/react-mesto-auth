@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -10,6 +11,9 @@ import Api from '../utils/api';
 
 import '../index.css'
 import ImagePopup from './ImagePopup';
+
+import Login from './Login';
+import Register from './Register';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -52,7 +56,7 @@ function App() {
                 setCurrentUser(res)
             })
             .then(closeAllPopups)
-            .catch(() => console.log('error'))       
+            .catch(() => console.log('error'))
     }
 
     function handleUpdateAvatar(link) {
@@ -70,7 +74,7 @@ function App() {
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
-            .catch(() => console.log('error'))         
+            .catch(() => console.log('error'))
     }
 
     function handleCardDelete(card) {
@@ -78,7 +82,7 @@ function App() {
             .then((newCard) => setCards((cards) => cards.filter((c) => {
                 if (c._id !== card._id) return newCard
             })))
-            .catch(() => console.log('error'))         
+            .catch(() => console.log('error'))
     }
 
     function handleAddPlaceSubmit(name, link) {
@@ -112,16 +116,26 @@ function App() {
         <div className="page__container">
             <CurrentUserContext.Provider value={currentUser}>
                 <Header />
-                <Main
-                    onEditAvatar={handleEditAvatarClick}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                />
-                <Footer />
+                <Switch>
+                    <Route path="/sign-up">
+                        <Register />
+                    </Route>
+                    <Route path="/sign-in">
+                        <Login />
+                    </Route>
+                </Switch>
+                <Route exact path="/">
+                    <Main
+                        onEditAvatar={handleEditAvatarClick}
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onCardClick={handleCardClick}
+                        cards={cards}
+                        onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
+                    />
+                    <Footer />
+                </Route>
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
