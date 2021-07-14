@@ -14,8 +14,11 @@ import ImagePopup from './ImagePopup';
 
 import Login from './Login';
 import Register from './Register';
+import InfoTooltip from './InfoTooltip';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
@@ -24,7 +27,9 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState();
     const [currentUser, setCurrentUser] = React.useState({});
-    const [cards, setCards] = React.useState([])
+    const [cards, setCards] = React.useState([]);
+    const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(true);
+const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
 
 
     function handleEditProfileClick() {
@@ -43,7 +48,8 @@ function App() {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
-        setSelectedCard()
+        setSelectedCard();
+        setIsTooltipOpen(false);
     }
 
     function handleCardClick(card) {
@@ -118,13 +124,16 @@ function App() {
                 <Header />
                 <Switch>
                     <Route path="/sign-up">
-                        <Register />
+                        <Register
+                        onRegistrationResult = {setIsRegistrationSuccessful}
+                        onTooltipToggle = {setIsTooltipOpen}
+                        />
                     </Route>
                     <Route path="/sign-in">
                         <Login />
                     </Route>
                 </Switch>
-                <Route exact path="/">
+                <ProtectedRoute exact path="/">
                     <Main
                         onEditAvatar={handleEditAvatarClick}
                         onEditProfile={handleEditProfileClick}
@@ -135,7 +144,7 @@ function App() {
                         onCardDelete={handleCardDelete}
                     />
                     <Footer />
-                </Route>
+                </ProtectedRoute>
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
@@ -146,6 +155,11 @@ function App() {
                         <button type="button" className="pop-up__submit-button">Да</button>
                     </div></PopupWithForm> */}
                 <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                <InfoTooltip
+                isOpen = {isTooltipOpen}
+                isSuccess = {isRegistrationSuccessful}
+                onClose={closeAllPopups}
+                />
             </CurrentUserContext.Provider>
         </div>
 
