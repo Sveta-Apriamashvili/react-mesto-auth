@@ -8,6 +8,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import Api from '../utils/api';
+import * as auth from '../auth.js';
 
 import '../index.css'
 import ImagePopup from './ImagePopup';
@@ -29,8 +30,14 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
     const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(true);
-const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
+    const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
+    const [isLoggedIn, setIsLoggedIn] = React.useState(canLocateToken());
+    const [userEmail, setUserEmail] = React.useState('')
 
+
+    function canLocateToken() {
+        return localStorage.getItem('jwt') != null
+    }
 
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true);
@@ -100,6 +107,23 @@ const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
             .catch(() => console.log('error'))
     }
 
+    function handleLogin(isSuccess) {
+        setIsLoggedIn(isSuccess)
+        updateUserEmail()
+    }
+
+    function updateUserEmail() {
+        let token = localStorage.getItem('jwt')
+        auth.checkToken(token)
+            .then((res) => setUserEmail(res.data.email))
+            .catch((err) => console.log(err))
+    }
+
+    function handleSignOut() {
+        localStorage.removeItem('jwt');
+        setIsLoggedIn(false)
+    }
+
     React.useEffect(() => {
         Api.getUserInfo()
             .then(res => {
@@ -121,20 +145,24 @@ const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
     return (
         <div className="page__container">
             <CurrentUserContext.Provider value={currentUser}>
-                <Header />
+                <Header userEmail={userEmail} onSignOut={handleSignOut} />
                 <Switch>
+
                     <Route path="/sign-up">
                         <Register
-                        onRegistrationResult = {setIsRegistrationSuccessful}
-                        onTooltipToggle = {setIsTooltipOpen}
+                            onRegistrationResult={setIsRegistrationSuccessful}
+                            onTooltipToggle={setIsTooltipOpen}
                         />
                     </Route>
                     <Route path="/sign-in">
-                        <Login />
+                        <Login
+                            handleLogin={handleLogin}
+                        />
                     </Route>
-                </Switch>
-                <ProtectedRoute exact path="/">
-                    <Main
+                    <ProtectedRoute
+                        exact path="/"
+                        isLoggedIn={isLoggedIn}
+                        component={Main}
                         onEditAvatar={handleEditAvatarClick}
                         onEditProfile={handleEditProfileClick}
                         onAddPlace={handleAddPlaceClick}
@@ -142,9 +170,10 @@ const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
                         cards={cards}
                         onCardLike={handleCardLike}
                         onCardDelete={handleCardDelete}
-                    />
-                    <Footer />
-                </ProtectedRoute>
+                    >
+                    </ProtectedRoute>
+                </Switch>
+                <Footer />
                 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
                 <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
                 <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
@@ -156,10 +185,11 @@ const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
                     </div></PopupWithForm> */}
                 <ImagePopup card={selectedCard} onClose={closeAllPopups} />
                 <InfoTooltip
-                isOpen = {isTooltipOpen}
-                isSuccess = {isRegistrationSuccessful}
-                onClose={closeAllPopups}
+                    isOpen={isTooltipOpen}
+                    isSuccess={isRegistrationSuccessful}
+                    onClose={closeAllPopups}
                 />
+
             </CurrentUserContext.Provider>
         </div>
 

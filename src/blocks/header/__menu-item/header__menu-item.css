@@ -1,0 +1,12 @@
+.header__menu-item {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 0;
+    text-decoration: none;
+}
+
+.header__menu-item:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
