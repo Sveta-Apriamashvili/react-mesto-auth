@@ -34,7 +34,6 @@ export const login = (email, password) => {
       return data;
     }
   })
-  .catch(err => console.log(err))
 }
 
 export const checkToken = (token) => {
@@ -45,19 +44,12 @@ export const checkToken = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => {
-    if (!res.ok) {
-      return Promise.reject();
-    }
-
-    return res.json();
-  });
+  .then(_handleResponse);
 }
 
-function _handleResponse(response) {
-  if (response.status >= 200 && response.status <= 299) {
-    return response.json();
-  } else {
-    throw response.statusText
-  }
+function _handleResponse(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+return res.json();
 }

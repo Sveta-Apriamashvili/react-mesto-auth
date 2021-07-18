@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 function Login(props) {
 
@@ -8,6 +8,14 @@ function Login(props) {
     email: "",
     password: ""
   });
+
+  useEffect(() => {
+    console.log('done')
+    const token = localStorage.getItem('jwt')
+    if (token === null) { return }
+
+    props.onTokenCheck(token)
+});
 
   const history = useHistory();
 
@@ -24,13 +32,9 @@ function Login(props) {
     if (!email || !password) {
       return;
     }
-    auth.login(email, password)
-    .then(() => {
-      props.handleLogin(true);
-      history.push('/');
-    })
-    // .catch(() => props.onRegistrationResult(false))
-    // .then(() => props.onTooltipToggle(true));
+
+    props.onLogin(email, password)
+
   }
 
   return (

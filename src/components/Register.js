@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 
 function Register(props) {
@@ -12,8 +12,6 @@ function Register(props) {
 
   
 
-  const history = useHistory();
-
   function handleChange(e) {
     const { name, value } = e.target
     setUserRegistration({ ...userRegistration, [name]: value })
@@ -22,13 +20,7 @@ function Register(props) {
   function handleSubmit(e) {
     e.preventDefault()
     const {email, password} = userRegistration
-    auth.register(email, password)
-    .then(() => {
-      props.onRegistrationResult(true);
-      history.push('/sign-in');
-    })
-    .catch(() => props.onRegistrationResult(false))
-    .then(() => props.onTooltipToggle(true));
+    props.onRegister(email, password)
   }
 
   return (

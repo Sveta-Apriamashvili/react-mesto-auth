@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -8,7 +8,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import Api from '../utils/api';
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 import '../index.css'
 import ImagePopup from './ImagePopup';
@@ -31,13 +31,11 @@ function App() {
     const [cards, setCards] = React.useState([]);
     const [isRegistrationSuccessful, setIsRegistrationSuccessful] = React.useState(true);
     const [isTooltipOpen, setIsTooltipOpen] = React.useState(false);
-    const [isLoggedIn, setIsLoggedIn] = React.useState(canLocateToken());
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [userEmail, setUserEmail] = React.useState('')
+    const history = useHistory();
 
 
-    function canLocateToken() {
-        return localStorage.getItem('jwt') != null
-    }
 
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true);
@@ -107,9 +105,25 @@ function App() {
             .catch(() => console.log('error'))
     }
 
-    function handleLogin(isSuccess) {
-        setIsLoggedIn(isSuccess)
+    function onLogin(email, password) {
+        auth.login(email, password)
+            .then(() => {
+                setIsLoggedIn(true);
+                history.push('/');
+
+            })
+            .catch(() => console.log('error'))
         updateUserEmail()
+    }
+
+    function onRegister(email, password) {
+        auth.register(email, password)
+            .then(() => {
+                setIsRegistrationSuccessful(true);
+                history.push('/sign-in');
+            })
+            .catch(() => setIsRegistrationSuccessful(false))
+            .then(() => setIsTooltipOpen(true));
     }
 
     function updateUserEmail() {
@@ -142,6 +156,19 @@ function App() {
 
     )
 
+    function onTokenCheck(token) {
+
+        auth.checkToken(token)
+            .then(res => {
+                console.log(res.data)
+                setIsLoggedIn(res.data != null)
+                setUserEmail(res.data.email)
+                history.push('/')
+            })
+            .catch(() => console.log('error'))
+
+    }
+
     return (
         <div className="page__container">
             <CurrentUserContext.Provider value={currentUser}>
@@ -150,13 +177,13 @@ function App() {
 
                     <Route path="/sign-up">
                         <Register
-                            onRegistrationResult={setIsRegistrationSuccessful}
-                            onTooltipToggle={setIsTooltipOpen}
+                            onRegister={onRegister}
                         />
                     </Route>
                     <Route path="/sign-in">
                         <Login
-                            handleLogin={handleLogin}
+                            onLogin={onLogin}
+                            onTokenCheck={onTokenCheck}
                         />
                     </Route>
                     <ProtectedRoute
