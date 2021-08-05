@@ -24,7 +24,7 @@ git clone https://github.com/Sveta-Apriamashvili/mesto-react.git
 
 - Шаг 2:
 ```bash
-cd mesto-react
+cd react-mesto-auth
 ```
 
 - Шаг 3: 
